@@ -807,7 +807,11 @@ const anchors = [
 ];
 
 // --- State Variables ---
-let activeDay = 0;
+// JavaScript's getDay() returns 0 for Sunday, 1 for Monday, etc.
+const currentJsDay = new Date().getDay();
+
+// Our days array starts with Monday (0). We need to map JS's Sunday (0) to our Sunday (6).
+let activeDay = currentJsDay === 0 ? 6 : currentJsDay - 1;
 let filterType = 'all';
 let expandedBlock = null;
 
