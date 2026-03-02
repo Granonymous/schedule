@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Health & Climbing Dashboard</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,wght@0,700;0,900;1,400&family=IBM+Plex+Mono:wght@300;400;500&display=swap');
+
+  :root {
+    --bg: #07090f;
+    --surface: #0d1220;
+    --surface2: #111827;
+    --border: #1e293b;
+    --text: #e2e8f0;
+    --muted: #64748b;
+    --dim: #334155;
+    --wed: #3b82f6;
+    --fri: #f59e0b;
+    --green: #22c55e;
+    --red: #ef4444;
+    --purple: #a855f7;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--text); font-family: 'IBM Plex Mono', monospace; line-height: 1.6; padding: 0; }
+  a { color: var(--wed); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  
+  .btn { cursor: pointer; border: none; transition: all 0.15s; }
+  .btn:hover { filter: brightness(1.2); }
+  .row { cursor: pointer; transition: background 0.12s; }
+  .row:hover { background: rgba(255,255,255,0.025) !important; }
+  
+  @keyframes fadeUp { from { opacity:0; transform:translateY(5px); } to { opacity:1; transform:translateY(0); } }
+  .anim { animation: fadeUp 0.18s ease; }
+  
+  ::-webkit-scrollbar { width: 3px; }
+  ::-webkit-scrollbar-thumb { background: var(--border); }
+  
+  .tab { cursor:pointer; border:none; transition: all 0.15s; }
+  .tab:hover { opacity: 0.85; }
+  .tab.active { background: #0f1624; color: #e2e8f0; border: 1px solid #1e293b; border-bottom: 1px solid #0f1624; margin-bottom: -1px; }
+  .tab.inactive { background: transparent; color: #334155; border: 1px solid transparent; }
+
+  /* Strength Plan Specific Styles */
+  .label { font-size: 10px; letter-spacing: 0.25em; color: var(--dim); margin-bottom: 8px; }
+  .subtitle { font-size: 12px; color: var(--muted); }
+  .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 32px; }
+  .overview-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
+  .overview-card .oc-label { font-size: 10px; color: var(--dim); letter-spacing: 0.15em; margin-bottom: 6px; }
+  .overview-card .oc-value { font-size: 15px; color: var(--text); font-weight: 500; }
+  .overview-card .oc-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  .phase-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 32px; }
+  .phase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-top: 3px solid var(--border); }
+  .phase-card.p1 { border-top-color: var(--green); }
+  .phase-card.p2 { border-top-color: var(--wed); }
+  .phase-card.p3 { border-top-color: var(--purple); }
+  .phase-card .ph-week { font-size: 10px; color: var(--dim); letter-spacing: 0.15em; margin-bottom: 4px; }
+  .phase-card .ph-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .phase-card .ph-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  .section-header { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
+  .section-header h2 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; }
+  .day-badge { font-size: 10px; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.12em; font-weight: 500; }
+  .day-badge.wed { background: rgba(59,130,246,0.15); color: var(--wed); border: 1px solid rgba(59,130,246,0.3); }
+  .day-badge.fri { background: rgba(245,158,11,0.15); color: var(--fri); border: 1px solid rgba(245,158,11,0.3); }
+  .superset-label { font-size: 10px; color: var(--dim); letter-spacing: 0.2em; margin: 20px 0 8px; }
+  .exercise-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
+  .exercise-card.superset { border-left: 3px solid var(--wed); }
+  .exercise-card.superset.fri-color { border-left-color: var(--fri); }
+  .ex-header { padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
+  .ex-header:hover { background: rgba(255,255,255,0.02); }
+  .ex-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
+  .ex-main { flex: 1; min-width: 0; }
+  .ex-name { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 4px; }
+  .ex-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  .tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; letter-spacing: 0.06em; }
+  .tag-sets { background: rgba(99,102,241,0.15); color: #a5b4fc; }
+  .tag-reps { background: rgba(16,185,129,0.15); color: #6ee7b7; }
+  .tag-weight { background: rgba(245,158,11,0.15); color: #fcd34d; }
+  .tag-rest { background: rgba(100,116,139,0.12); color: var(--muted); }
+  .tag-type { background: rgba(239,68,68,0.12); color: #fca5a5; }
+  .ex-toggle { font-size: 11px; color: var(--dim); flex-shrink: 0; margin-top: 2px; }
+  .ex-body { display: none; padding: 0 16px 16px 52px; border-top: 1px solid rgba(30,41,59,0.8); }
+  .ex-body.open { display: block; }
+  .ex-section-title { font-size: 10px; color: var(--dim); letter-spacing: 0.15em; margin: 12px 0 6px; }
+  .ex-text { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 8px; }
+  .form-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 5px 10px; margin-top: 4px; transition: all 0.15s; }
+  .form-link:hover { background: rgba(239,68,68,0.15); text-decoration: none; color: #ef4444; }
+  .weight-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 11px; }
+  .weight-table th { text-align: left; padding: 6px 10px; background: rgba(30,41,59,0.5); color: var(--dim); letter-spacing: 0.1em; font-size: 10px; }
+  .weight-table td { padding: 7px 10px; border-top: 1px solid var(--border); color: var(--muted); }
+  .weight-table td:first-child { color: var(--text); }
+  .callout { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; font-size: 12px; line-height: 1.65; }
+  .callout-warn { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); color: #fcd34d; }
+  .callout-info { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2); color: #93c5fd; }
+  .callout-green { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.2); color: #86efac; }
+  .callout-red { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+  .warmup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-bottom: 8px; }
+  .warmup-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; gap: 8px; align-items: center; }
+  .warmup-item span:first-child { font-size: 16px; }
+  .warmup-item .wi-text { font-size: 12px; color: var(--muted); }
+  .warmup-item .wi-time { font-size: 10px; color: var(--dim); margin-top: 1px; }
+  
+  .tab-content { display: none; }
+  .tab-content.active { display: block; }
+  
+  @media (max-width: 600px) {
+    .phase-row { grid-template-columns: 1fr; }
+    .ex-body { padding-left: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<div style="background: #090c15; border-bottom: 1px solid #0f1624; padding: 22px 20px 0;">
+  <div style="max-width: 760px; margin: 0 auto;">
+    <p style="font-size: 10px; color: #1e3a5f; letter-spacing: 0.3em; margin-bottom: 8px;">WEEKLY HEALTH PLAN — FINAL VERSION</p>
+    <h1 style="font-family: 'Fraunces', serif; font-size: clamp(22px, 4vw, 34px); font-weight: 900; line-height: 1.1; color: #f1f5f9; margin-bottom: 6px;">
+      Back to 185.<br><span style="color: #22c55e;">Climb 5.12.</span>
+    </h1>
+    <p style="font-size: 11px; color: #1e3a5f; margin-bottom: 18px;">
+      Climbing Mon · Thu · Sat &nbsp;|&nbsp; Strength Wed · Fri &nbsp;|&nbsp; Sleep + Habits every day
+    </p>
+
+    <div style="display: flex; gap: 4px; flex-wrap: wrap;" id="tab-nav">
+      <button class="tab active" data-target="schedule" style="padding: 9px 16px; border-radius: 7px 7px 0 0; font-size: 12px; font-family: 'IBM Plex Mono';">📅 Schedule</button>
+      <button class="tab inactive" data-target="workout" style="padding: 9px 16px; border-radius: 7px 7px 0 0; font-size: 12px; font-family: 'IBM Plex Mono';">💪 Strength Plan</button>
+      <button class="tab inactive" data-target="climbing" style="padding: 9px 16px; border-radius: 7px 7px 0 0; font-size: 12px; font-family: 'IBM Plex Mono';">🧗 Climbing Focus</button>
+      <button class="tab inactive" data-target="anchors" style="padding: 9px 16px; border-radius: 7px 7px 0 0; font-size: 12px; font-family: 'IBM Plex Mono';">⚓ Daily Anchors</button>
+    </div>
+  </div>
+</div>
+
+<div style="padding: 20px 20px 60px; max-width: 760px; margin: 0 auto;">
+
+  <div id="schedule" class="tab-content active anim">
+    <div id="day-selector" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 16px;"></div>
+    <div id="day-header" style="margin-bottom: 14px;"></div>
+    <div id="filter-selector" style="display: flex; gap: 5px; flex-wrap: wrap; margin-bottom: 12px;"></div>
+    <div id="schedule-blocks" style="display: flex; flex-direction: column; gap: 2px;"></div>
+    <div style="margin-top: 16px; padding: 10px 14px; background: #0a0c14; border-radius: 7px; border: 1px solid #0f1624;">
+      <p style="font-size: 11px; color: #1e3a5f; line-height: 1.6;">
+        <span style="color: #334155;">FLEX</span> = timing is flexible. Everything else is a fixed anchor. Click any block for the reasoning.
+      </p>
+    </div>
+  </div>
+
+  <div id="workout" class="tab-content anim">
+    <section id="warmup">
+      <div class="section-header">
+        <h2 style="color: var(--text);">Warm-Up</h2>
+        <span style="font-size:11px;color:var(--muted);">5 min — do this before BOTH sessions</span>
+      </div>
+      <div class="warmup-grid">
+        <div class="warmup-item"><span>🔄</span><div><div class="wi-text">Arm circles (forward + back)</div><div class="wi-time">20 reps each direction</div></div></div>
+        <div class="warmup-item"><span>🤸</span><div><div class="wi-text">Band pull-aparts</div><div class="wi-time">15 reps — activates scapular muscles</div></div></div>
+        <div class="warmup-item"><span>🏋️</span><div><div class="wi-text">Dead hang from pull-up bar</div><div class="wi-time">20–30 seconds — warms tendons</div></div></div>
+        <div class="warmup-item"><span>🦵</span><div><div class="wi-text">Bodyweight squats</div><div class="wi-time">10 reps — activates legs and hips</div></div></div>
+      </div>
+    </section>
+
+    <section id="wednesday">
+      <div class="section-header">
+        <h2 style="color: var(--wed);">Wednesday</h2>
+        <span class="day-badge wed">PULL + CORE</span>
+      </div>
+      <div class="callout callout-info"><strong>Superset = do A then B back to back with no rest, rest 90s between rounds.</strong></div>
+
+      <div class="superset-label">SUPERSET 1 — 3 ROUNDS · rest 90s between rounds</div>
+      
+      <div class="exercise-card superset" id="ex-pullups">
+        <div class="ex-header" onclick="toggleEx('ex-pullups')">
+          <div class="ex-icon">💪</div>
+          <div class="ex-main">
+            <div class="ex-name">Pull-ups (or Lat Pulldown)</div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">5–8 reps</span>
+            </div>
+          </div>
+          <div class="ex-toggle" id="ex-pullups-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-pullups-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Dead hang at the bottom — full extension every rep. Pull shoulder blades down and together first.</p>
+        </div>
+      </div>
+
+      <div class="exercise-card superset" id="ex-pushups">
+        <div class="ex-header" onclick="toggleEx('ex-pushups')">
+          <div class="ex-icon">🔄</div>
+          <div class="ex-main">
+            <div class="ex-name">Push-ups to failure</div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">To failure</span>
+            </div>
+          </div>
+          <div class="ex-toggle" id="ex-pushups-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-pushups-body">
+          <div class="ex-section-title">WHY THIS PAIRS WITH PULL-UPS</div>
+          <p class="ex-text">Climbing is almost entirely pulling. Without antagonist pressing work, you'll develop muscular imbalances.</p>
+        </div>
+      </div>
+
+      <div class="superset-label" style="margin-top:20px;">SUPERSET 2 — 3 ROUNDS · rest 90s between rounds</div>
+      
+      <div class="exercise-card superset" id="ex-row">
+        <div class="ex-header" onclick="toggleEx('ex-row')">
+          <div class="ex-icon">🏋️</div>
+          <div class="ex-main">
+            <div class="ex-name">Single-arm Dumbbell Row</div>
+            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–10 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-row-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-row-body"><p class="ex-text">Row the dumbbell toward your hip — think "elbow past your back pocket."</p></div>
+      </div>
+
+      <div class="exercise-card superset" id="ex-tricep">
+        <div class="ex-header" onclick="toggleEx('ex-tricep')">
+          <div class="ex-icon">🔼</div>
+          <div class="ex-main">
+            <div class="ex-name">Tricep Dips or Dumbbell Overhead Press</div>
+            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–10 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-tricep-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-tricep-body"><p class="ex-text">Antagonist pushing muscles. Dips are preferred for climbers as they strengthen shoulder stabilizers.</p></div>
+      </div>
+
+      <div class="superset-label" style="margin-top:20px;">CORE CIRCUIT — 2 ROUNDS</div>
+      
+      <div class="exercise-card" id="ex-hang">
+        <div class="ex-header" onclick="toggleEx('ex-hang')">
+          <div class="ex-icon">🪝</div>
+          <div class="ex-main">
+            <div class="ex-name">Dead Hang</div>
+            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">20–30 seconds</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-hang-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-hang-body"><p class="ex-text">Builds grip strength and finger tendon resilience passively.</p></div>
+      </div>
+
+      <div class="exercise-card" id="ex-hlr">
+        <div class="ex-header" onclick="toggleEx('ex-hlr')">
+          <div class="ex-icon">🦵</div>
+          <div class="ex-main">
+            <div class="ex-name">Hanging Leg Raises</div>
+            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">8–10 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-hlr-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-hlr-body"><p class="ex-text">Essential for overhanging routes and high feet.</p></div>
+      </div>
+
+      <div class="exercise-card" id="ex-hollow">
+        <div class="ex-header" onclick="toggleEx('ex-hollow')">
+          <div class="ex-icon">🫙</div>
+          <div class="ex-main">
+            <div class="ex-name">Hollow Body Hold</div>
+            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">20–30 seconds</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-hollow-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-hollow-body"><p class="ex-text">The hollow body position is exactly the body tension you need on steep terrain.</p></div>
+      </div>
+    </section>
+
+    <section id="friday">
+      <div class="section-header">
+        <h2 style="color: var(--fri);">Friday</h2>
+        <span class="day-badge fri">ANTAGONIST + LEGS</span>
+      </div>
+      
+      <div class="superset-label">SUPERSET 1 — 3 ROUNDS · rest 90s between rounds</div>
+
+      <div class="exercise-card superset fri-color" id="ex-scap">
+        <div class="ex-header" onclick="toggleEx('ex-scap')">
+          <div class="ex-icon">🫁</div>
+          <div class="ex-main">
+            <div class="ex-name">Scapular Pull-ups</div>
+            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–12 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-scap-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-scap-body"><p class="ex-text">Hang with dead-straight arms. Pull shoulder blades down and together. Prevents rotator cuff injuries.</p></div>
+      </div>
+
+      <div class="exercise-card superset fri-color" id="ex-band">
+        <div class="ex-header" onclick="toggleEx('ex-band')">
+          <div class="ex-icon">↔️</div>
+          <div class="ex-main">
+            <div class="ex-name">Band Pull-Aparts</div>
+            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">15 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-band-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-band-body"><p class="ex-text">Squeeze shoulder blades together. Non-negotiable for shoulder health.</p></div>
+      </div>
+
+      <div class="superset-label" style="margin-top:20px;">SUPERSET 2 — 3 ROUNDS · rest 90s between rounds</div>
+
+      <div class="exercise-card superset fri-color" id="ex-goblet">
+        <div class="ex-header" onclick="toggleEx('ex-goblet')">
+          <div class="ex-icon">🦵</div>
+          <div class="ex-main">
+            <div class="ex-name">Goblet Squat</div>
+            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">10–12 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-goblet-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-goblet-body"><p class="ex-text">Strong quads let you actually USE high feet instead of hanging off your arms.</p></div>
+      </div>
+
+      <div class="exercise-card superset fri-color" id="ex-rdl">
+        <div class="ex-header" onclick="toggleEx('ex-rdl')">
+          <div class="ex-icon">⚖️</div>
+          <div class="ex-main">
+            <div class="ex-name">Single-leg RDL</div>
+            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8 reps each leg</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-rdl-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-rdl-body"><p class="ex-text">You almost never stand on two feet simultaneously while climbing. Builds necessary stability.</p></div>
+      </div>
+
+      <div class="superset-label" style="margin-top:20px;">CORE CIRCUIT — 2 ROUNDS</div>
+
+      <div class="exercise-card" id="ex-bike">
+        <div class="ex-header" onclick="toggleEx('ex-bike')">
+          <div class="ex-icon">🚲</div>
+          <div class="ex-main">
+            <div class="ex-name">Bicycle Crunches</div>
+            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">12–20 reps</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-bike-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-bike-body"><p class="ex-text">Obliques for twisting moves and balance on uneven terrain.</p></div>
+      </div>
+
+      <div class="exercise-card" id="ex-plank">
+        <div class="ex-header" onclick="toggleEx('ex-plank')">
+          <div class="ex-icon">🗿</div>
+          <div class="ex-main">
+            <div class="ex-name">Plank</div>
+            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">45–60 seconds</span></div>
+          </div>
+          <div class="ex-toggle" id="ex-plank-arrow">▼</div>
+        </div>
+        <div class="ex-body" id="ex-plank-body"><p class="ex-text">Full body tension. Don't let hips sag.</p></div>
+      </div>
+    </section>
+  </div>
+
+  <div id="climbing" class="tab-content anim">
+    <div id="climbing-container"></div>
+  </div>
+
+  <div id="anchors" class="tab-content anim">
+    <div id="anchors-container"></div>
+  </div>
+
+</div>
+
+<script>
+// --- Data ---
+const typeConfig = {
+  anchor:  { bg: "#12152a", border: "#6366f1", text: "#a5b4fc", label: "Anchor" },
+  brain:   { bg: "#13102a", border: "#8b5cf6", text: "#c4b5fd", label: "Brain" },
+  study:   { bg: "#0c1a2e", border: "#0ea5e9", text: "#7dd3fc", label: "Study" },
+  food:    { bg: "#0a1a10", border: "#10b981", text: "#6ee7b7", label: "Food" },
+  gym:     { bg: "#0c1525", border: "#3b82f6", text: "#93c5fd", label: "Strength" },
+  climb:   { bg: "#0a1a0f", border: "#22c55e", text: "#86efac", label: "Climbing" },
+  class:   { bg: "#150f28", border: "#a855f7", text: "#d8b4fe", label: "Class" },
+  sleep:   { bg: "#0a0d1e", border: "#4f46e5", text: "#818cf8", label: "Sleep" },
+  free:    { bg: "#0f0f0f", border: "#475569", text: "#94a3b8", label: "Free" },
+  outside: { bg: "#0a1a12", border: "#34d399", text: "#6ee7b7", label: "Outside" },
+  shower:  { bg: "#0a1520", border: "#38bdf8", text: "#7dd3fc", label: "Shower" },
+  vape:    { bg: "#1a1008", border: "#f97316", text: "#fdba74", label: "Vaping" },
+};
+
+const days = [
+  {
+    name: "Monday", short: "MON", accent: "#f59e0b", typeLabel: "HEAVY WORK + CLIMBING", typeColor: "#ef4444",
+    summary: "No class. Biggest work day. W&R reading/writing + Anthro reading. Climbing team practice 7:30–9:30pm.",
+    workload: "W&R (~2hrs) · Anthro (~3.5hrs) · Climbing 7:30–9:30pm",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Same time every day. No snooze." },
+      { time: "8:30–8:45", label: "Walk outside — morning sunlight", type: "outside", icon: "🌅", flex: false, note: "10-min loop outside before anything else." },
+      { time: "8:45–9:00", label: "Meditation + brush teeth", type: "brain", icon: "🧘", flex: false, note: "5 min meditation." },
+      { time: "9:00–12:00", label: "Deep work: W&R reading + writing", type: "study", icon: "✍️", flex: false, note: "W&R first — it's due Tuesday." },
+      { time: "12:00", label: "Walk to dhall + first meal", type: "food", icon: "🥗", flex: false, note: "One plate. Protein first." },
+      { time: "1:00–5:30", label: "Deep work: Anthro reading", type: "study", icon: "📖", flex: true, note: "~3.5 hours of Anthro reading." },
+      { time: "5:30", label: "Dinner (dhall)", type: "food", icon: "🥦", flex: false, note: "Eat dinner early — you're climbing at 7:30." },
+      { time: "7:30–9:30", label: "Climbing team practice 🧗", type: "climb", icon: "🧗", flex: false, note: "Focus on technique. Silent feet." },
+      { time: "10:00", label: "Post-climb protein", type: "food", icon: "🥤", flex: false, note: "Critical for muscle repair." },
+      { time: "10:30–11:00", label: "Shower", type: "shower", icon: "🚿", flex: false, note: "Hot shower triggers sleep." },
+      { time: "11:00", label: "📵 Phone away", type: "anchor", icon: "📵", flex: false, note: "Hard stop across the room." },
+      { time: "11:30", label: "Sleep", type: "anchor", icon: "🌙", flex: false, note: "Target asleep by 11:30." }
+    ]
+  },
+  {
+    name: "Tuesday", short: "TUE", accent: "#ef4444", typeLabel: "HARDEST DAY — NO GYM", typeColor: "#dc2626",
+    summary: "3 classes including evening. Reading response due 5pm.",
+    workload: "Class 9:25–11:15 · Class 1–2:15 · Class 7–8:50pm · Response due 5pm",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Tuesday is brutal — you need the morning." },
+      { time: "9:25–11:15", label: "Class (W&R)", type: "class", icon: "🎓", flex: false, note: "Morning class." },
+      { time: "11:45–12:45", label: "Submit reading response", type: "study", icon: "✍️", flex: false, note: "Polish and submit." },
+      { time: "1:00–2:15", label: "Class (Anthro)", type: "class", icon: "🎓", flex: false, note: "Afternoon class." },
+      { time: "2:30–2:50", label: "20-min nap MAX", type: "sleep", icon: "💤", flex: true, note: "You need this before evening class." },
+      { time: "7:00–8:50", label: "Evening class", type: "class", icon: "🎓", flex: false, note: "Last class of the day." },
+      { time: "9:00–10:00", label: "Decompress — rest day", type: "free", icon: "🛋️", flex: false, note: "Full rest day." },
+      { time: "10:45", label: "Sleep", type: "anchor", icon: "🌙", flex: false, note: "Early recovery night." }
+    ]
+  },
+  {
+    name: "Wednesday", short: "WED", accent: "#3b82f6", typeLabel: "MEDIUM WORK + STRENGTH", typeColor: "#f59e0b",
+    summary: "One morning class, then free. Strength training in the afternoon — Pull + Core focus.",
+    workload: "Class 9:25–11:15 · Strength training ~30 min",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Same time." },
+      { time: "9:25–11:15", label: "Class", type: "class", icon: "🎓", flex: false, note: "Morning class." },
+      { time: "12:30–3:00", label: "Study: pset or reading", type: "study", icon: "📐", flex: true, note: "Start pset if due Sunday." },
+      { time: "4:00–4:30", label: "Strength: Pull + Core", type: "gym", icon: "💪", flex: false, note: "See the Strength Plan tab." },
+      { time: "5:30–9:00", label: "Free time / social", type: "free", icon: "🎮", flex: true, note: "Wednesday evening is your reward." },
+      { time: "10:30–11:00", label: "Sleep", type: "anchor", icon: "🌙", flex: false, note: "Bank extra sleep." }
+    ]
+  },
+  {
+    name: "Thursday", short: "THU", accent: "#10b981", typeLabel: "LIGHT WORK + CLIMBING", typeColor: "#10b981",
+    summary: "One afternoon class, then climbing team practice 7:30–9:30pm. Protect your energy.",
+    workload: "Class 1–2:15 · Climbing 7:30–9:30pm",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Same time." },
+      { time: "9:00–11:00", label: "Light study", type: "study", icon: "📚", flex: true, note: "Skim Friday readings." },
+      { time: "1:00–2:15", label: "Class (Anthro)", type: "class", icon: "🎓", flex: false, note: "Afternoon class." },
+      { time: "7:30–9:30", label: "Climbing team practice 🧗", type: "climb", icon: "🧗", flex: false, note: "2 hours with the team." },
+      { time: "10:00", label: "Post-climb protein", type: "food", icon: "🥤", flex: false, note: "Muscle repair." },
+      { time: "11:15", label: "Sleep", type: "anchor", icon: "🌙", flex: false, note: "Best recovery night." }
+    ]
+  },
+  {
+    name: "Friday", short: "FRI", accent: "#f59e0b", typeLabel: "CLASS + STRENGTH", typeColor: "#22c55e",
+    summary: "Morning class, afternoon strength training, likely social tonight.",
+    workload: "Class 9:25–11:15 · Strength training ~30 min",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Same time." },
+      { time: "9:25–11:15", label: "Class", type: "class", icon: "🎓", flex: false, note: "Morning class." },
+      { time: "2:30–3:00", label: "Strength: Antagonist + Legs", type: "gym", icon: "💪", flex: false, note: "Protects shoulders, builds legs." },
+      { time: "7:00+", label: "Social / free evening", type: "free", icon: "🎉", flex: true, note: "Enjoy it." },
+      { time: "~11:30", label: "📵 Phone away + sleep", type: "anchor", icon: "📵", flex: true, note: "Saturday is a climbing day." }
+    ]
+  },
+  {
+    name: "Saturday", short: "SAT", accent: "#a855f7", typeLabel: "CLIMBING + WORK DAY", typeColor: "#a855f7",
+    summary: "Climbing team practice 10am–12pm. Heavy work afternoon.",
+    workload: "Climbing 10am–12pm · Pset (~3hrs)",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Hardest anchor, most important." },
+      { time: "10:00–12:00", label: "Climbing practice 🧗", type: "climb", icon: "🧗", flex: false, note: "Boulder focus V2-V4." },
+      { time: "1:30–5:00", label: "Deep work: pset", type: "study", icon: "📐", flex: false, note: "3 hours now makes Sunday easy." },
+      { time: "7:00–9:30", label: "Free time / social", type: "free", icon: "🎉", flex: true, note: "Rest and socialize." },
+      { time: "11:00", label: "Sleep", type: "anchor", icon: "🌙", flex: false, note: "Good sleep before heavy Sunday." }
+    ]
+  },
+  {
+    name: "Sunday", short: "SUN", accent: "#06b6d4", typeLabel: "HEAVY WORK + RESET", typeColor: "#ef4444",
+    summary: "Pset due tonight. Get ahead on W&R for Tuesday.",
+    workload: "Pset due tonight · W&R reading",
+    blocks: [
+      { time: "8:30", label: "Wake up", type: "anchor", icon: "☀️", flex: false, note: "Treat it like a work day." },
+      { time: "9:00–11:00", label: "Deep work: finish pset", type: "study", icon: "📐", flex: false, note: "Submit before noon." },
+      { time: "1:00–4:30", label: "W&R reading", type: "study", icon: "✍️", flex: false, note: "Get ahead for Monday/Tuesday." },
+      { time: "7:00", label: "Prep for Monday", type: "free", icon: "🎒", flex: false, note: "10 min prep eliminates friction." },
+      { time: "11:00", label: "Sleep", type: "anchor", icon: "🌙", flex: false, note: "Sets up the whole week." }
+    ]
+  }
+];
+
+const climbingFocus = [
+  { icon: "🦶", title: "Silent Feet", desc: "Place feet so quietly you can't hear them. Sloppy feet = wasted arms." },
+  { icon: "💪", title: "Straight Arms", desc: "Hang on your skeleton, not your muscles. Bent arms burn you out." },
+  { icon: "🔄", title: "Hip Rotation", desc: "Turn hips into the wall. Opens reach and keeps weight over feet." },
+  { icon: "😮‍💨", title: "Find Rest Positions", desc: "Identify the shake-out spots. Practice resting even when you don't need to." }
+];
+
+const anchors = [
+  { icon: "☀️", time: "8:30am", label: "Wake — same every day", color: "#f59e0b" },
+  { icon: "🌅", time: "8:30–8:45", label: "Walk outside — morning sunlight", color: "#10b981" },
+  { icon: "🥗", time: "~11:30am", label: "First meal — one plate, protein first", color: "#10b981" },
+  { icon: "📵", time: "~11pm", label: "Phone away after shower", color: "#ef4444" },
+  { icon: "🌙", time: "11:30pm", label: "Asleep by 11:30", color: "#6366f1" }
+];
+
+// --- State Variables ---
+let activeDay = 0;
+let filterType = 'all';
+let expandedBlock = null;
+
+// --- DOM Elements ---
+const tabs = document.querySelectorAll('.tab');
+const tabContents = document.querySelectorAll('.tab-content');
+const daySelectorEl = document.getElementById('day-selector');
+const dayHeaderEl = document.getElementById('day-header');
+const filterSelectorEl = document.getElementById('filter-selector');
+const scheduleBlocksEl = document.getElementById('schedule-blocks');
+
+// --- Functions ---
+function switchTab(targetId) {
+  tabs.forEach(tab => {
+    if (tab.dataset.target === targetId) {
+      tab.classList.remove('inactive'); tab.classList.add('active');
+    } else {
+      tab.classList.remove('active'); tab.classList.add('inactive');
+    }
+  });
+  tabContents.forEach(content => {
+    if (content.id === targetId) {
+      content.classList.add('active');
+    } else {
+      content.classList.remove('active');
+    }
+  });
+}
+
+// Attach Tab Listeners
+tabs.forEach(tab => {
+  tab.addEventListener('click', () => switchTab(tab.dataset.target));
+});
+
+function renderDays() {
+  daySelectorEl.innerHTML = '';
+  days.forEach((d, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.style = `padding: 7px 14px; border-radius: 20px; font-size: 11px; font-family: 'IBM Plex Mono'; letter-spacing: 0.08em; background: ${activeDay === i ? d.accent : '#0f1624'}; color: ${activeDay === i ? '#07090f' : '#475569'}; border: 1px solid ${activeDay === i ? d.accent : '#1a2030'}; font-weight: ${activeDay === i ? 600 : 400};`;
+    btn.innerText = d.short;
+    btn.onclick = () => { activeDay = i; expandedBlock = null; filterType = 'all'; updateScheduleView(); };
+    daySelectorEl.appendChild(btn);
+  });
+}
+
+function renderFilters() {
+  const day = days[activeDay];
+  const uniqueTypes = [...new Set(day.blocks.map(b => b.type))];
+  
+  filterSelectorEl.innerHTML = '';
+  
+  // All Button
+  const allBtn = document.createElement('button');
+  allBtn.className = 'btn';
+  allBtn.style = `padding: 3px 10px; border-radius: 20px; font-size: 10px; font-family: 'IBM Plex Mono'; background: ${filterType === 'all' ? '#e2e8f0' : '#0f1624'}; color: ${filterType === 'all' ? '#07090f' : '#475569'}; border: none;`;
+  allBtn.innerText = 'all';
+  allBtn.onclick = () => { filterType = 'all'; expandedBlock = null; updateScheduleView(); };
+  filterSelectorEl.appendChild(allBtn);
+
+  // Type Buttons
+  uniqueTypes.forEach(type => {
+    const c = typeConfig[type];
+    const btn = document.createElement('button');
+    btn.className = 'btn';
+    btn.style = `padding: 3px 10px; border-radius: 20px; font-size: 10px; font-family: 'IBM Plex Mono'; background: ${filterType === type ? c.border : '#0f1624'}; color: ${filterType === type ? '#07090f' : c.text}; border: none;`;
+    btn.innerText = c.label.toLowerCase();
+    btn.onclick = () => { filterType = type; expandedBlock = null; updateScheduleView(); };
+    filterSelectorEl.appendChild(btn);
+  });
+}
+
+function updateScheduleView() {
+  renderDays();
+  const day = days[activeDay];
+  
+  // Update Header
+  dayHeaderEl.innerHTML = `
+    <div style="display: flex; align-items: center; gap: 10px; flex-wrap: wrap; margin-bottom: 5px;">
+      <span style="font-family: 'Fraunces', serif; font-size: 26px; font-weight: 900; color: ${day.accent}">${day.name}</span>
+      <span style="font-size: 10px; padding: 3px 8px; border-radius: 4px; background: ${day.typeColor}18; color: ${day.typeColor}; letter-spacing: 0.12em;">${day.typeLabel}</span>
+    </div>
+    <p style="font-size: 12px; color: #4b5563; line-height: 1.6; margin-bottom: 4px;">${day.summary}</p>
+    <p style="font-size: 11px; color: #1e3a5f;">📋 ${day.workload}</p>
+  `;
+
+  renderFilters();
+
+  // Update Blocks
+  scheduleBlocksEl.innerHTML = '';
+  const filteredBlocks = filterType === 'all' ? day.blocks : day.blocks.filter(b => b.type === filterType);
+  
+  filteredBlocks.forEach((block, i) => {
+    const c = typeConfig[block.type];
+    const isOpen = expandedBlock === i;
+    
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.style = `border-radius: 7px; border: 1px solid ${isOpen ? c.border : '#0f1624'}; background: ${isOpen ? c.bg : 'transparent'}; overflow: hidden;`;
+    
+    let flexHtml = block.flex ? `<span style="font-size: 9px; color: #1e3a5f; letter-spacing: 0.1em; margin-right:6px;">FLEX</span>` : '';
+    
+    row.innerHTML = `
+      <div style="display: flex; min-height: 42px;" onclick="toggleBlock(${i})">
+        <div style="width: 86px; padding: 11px 10px; flex-shrink: 0; display: flex; align-items: center;">
+          <span style="font-size: 10px; color: #1e3a5f; line-height: 1.3;">${block.time}</span>
+        </div>
+        <div style="width: 3px; background: ${isOpen ? c.border : c.border + '25'}; flex-shrink: 0;"></div>
+        <div style="flex: 1; padding: 10px 14px; display: flex; align-items: center; gap: 10px;">
+          <span style="font-size: 15px; flex-shrink: 0;">${block.icon}</span>
+          <span style="flex: 1; font-size: 13px; color: ${isOpen ? c.text : '#94a3b8'};">${block.label}</span>
+          <div style="display: flex; gap: 6px; align-items: center; flex-shrink: 0;">
+            ${flexHtml}
+            <span style="font-size: 10px; color: #1e3a5f;">${isOpen ? '▲' : '▼'}</span>
+          </div>
+        </div>
+      </div>
+      ${isOpen ? `
+        <div class="anim" style="padding: 10px 14px 13px 103px; border-top: 1px solid ${c.border}20; font-size: 12px; color: #64748b; line-height: 1.7;">
+          ${block.note}
+        </div>
+      ` : ''}
+    `;
+    scheduleBlocksEl.appendChild(row);
+  });
+}
+
+function toggleBlock(index) {
+  expandedBlock = expandedBlock === index ? null : index;
+  updateScheduleView();
+}
+
+function renderStaticTabs() {
+  // Climbing Tab
+  const climbingContainer = document.getElementById('climbing-container');
+  let climbingHtml = `<div style="display: flex; flex-direction: column; gap: 10px;">`;
+  climbingFocus.forEach(f => {
+    climbingHtml += `
+      <div style="padding: 14px; background: #0a0c14; border-radius: 8px; border: 1px solid #0f1624; display: flex; gap: 12px; align-items: flex-start;">
+        <span style="font-size: 22px; flex-shrink: 0;">${f.icon}</span>
+        <div>
+          <p style="font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: #e2e8f0; margin-bottom: 4px;">${f.title}</p>
+          <p style="font-size: 11px; color: #64748b; line-height: 1.65;">${f.desc}</p>
+        </div>
+      </div>
+    `;
+  });
+  climbingHtml += `</div>`;
+  climbingContainer.innerHTML = climbingHtml;
+
+  // Anchors Tab
+  const anchorsContainer = document.getElementById('anchors-container');
+  let anchorsHtml = `<div style="display: flex; flex-direction: column; gap: 8px;">`;
+  anchors.forEach(a => {
+    anchorsHtml += `
+      <div style="display: flex; align-items: center; gap: 14px; padding: 14px 16px; background: #0a0c14; border-radius: 8px; border-left: 3px solid ${a.color};">
+        <span style="font-size: 24px; flex-shrink: 0;">${a.icon}</span>
+        <div>
+          <p style="font-family: 'Fraunces', serif; font-size: 15px; font-weight: 700; color: #e2e8f0; margin-bottom: 2px;">${a.label}</p>
+          <p style="font-size: 10px; color: #334155; letter-spacing: 0.1em;">${a.time}</p>
+        </div>
+      </div>
+    `;
+  });
+  anchorsHtml += `</div>`;
+  anchorsContainer.innerHTML = anchorsHtml;
+}
+
+// Workout Toggles
+function toggleEx(id) {
+  const body = document.getElementById(id + '-body');
+  const arrow = document.getElementById(id + '-arrow');
+  if (body.classList.contains('open')) {
+    body.classList.remove('open');
+    arrow.textContent = '▼';
+  } else {
+    body.classList.add('open');
+    arrow.textContent = '▲';
+  }
+}
+
+// Initialize
+updateScheduleView();
+renderStaticTabs();
+</script>
+
+</body>
+</html>
