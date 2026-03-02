@@ -46,11 +46,13 @@
   /* Strength Plan Specific Styles */
   .label { font-size: 10px; letter-spacing: 0.25em; color: var(--dim); margin-bottom: 8px; }
   .subtitle { font-size: 12px; color: var(--muted); }
+  
   .overview-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 10px; margin-bottom: 32px; }
   .overview-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 16px; }
   .overview-card .oc-label { font-size: 10px; color: var(--dim); letter-spacing: 0.15em; margin-bottom: 6px; }
   .overview-card .oc-value { font-size: 15px; color: var(--text); font-weight: 500; }
   .overview-card .oc-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+  
   .phase-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 32px; }
   .phase-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; border-top: 3px solid var(--border); }
   .phase-card.p1 { border-top-color: var(--green); }
@@ -58,44 +60,64 @@
   .phase-card.p3 { border-top-color: var(--purple); }
   .phase-card .ph-week { font-size: 10px; color: var(--dim); letter-spacing: 0.15em; margin-bottom: 4px; }
   .phase-card .ph-name { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 700; margin-bottom: 4px; }
+  .phase-card.p1 .ph-name { color: var(--green); }
+  .phase-card.p2 .ph-name { color: var(--wed); }
+  .phase-card.p3 .ph-name { color: var(--purple); }
   .phase-card .ph-desc { font-size: 11px; color: var(--muted); line-height: 1.5; }
+  
   .section-header { display: flex; align-items: center; gap: 12px; margin: 36px 0 16px; padding-bottom: 10px; border-bottom: 1px solid var(--border); }
   .section-header h2 { font-family: 'Fraunces', serif; font-size: 22px; font-weight: 900; }
+  
   .day-badge { font-size: 10px; padding: 3px 9px; border-radius: 20px; letter-spacing: 0.12em; font-weight: 500; }
   .day-badge.wed { background: rgba(59,130,246,0.15); color: var(--wed); border: 1px solid rgba(59,130,246,0.3); }
   .day-badge.fri { background: rgba(245,158,11,0.15); color: var(--fri); border: 1px solid rgba(245,158,11,0.3); }
+  
   .superset-label { font-size: 10px; color: var(--dim); letter-spacing: 0.2em; margin: 20px 0 8px; }
+  
   .exercise-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; margin-bottom: 8px; overflow: hidden; }
   .exercise-card.superset { border-left: 3px solid var(--wed); }
   .exercise-card.superset.fri-color { border-left-color: var(--fri); }
+  
   .ex-header { padding: 14px 16px; display: flex; align-items: flex-start; gap: 12px; cursor: pointer; }
   .ex-header:hover { background: rgba(255,255,255,0.02); }
   .ex-icon { font-size: 20px; flex-shrink: 0; margin-top: 1px; }
   .ex-main { flex: 1; min-width: 0; }
   .ex-name { font-size: 14px; color: var(--text); font-weight: 500; margin-bottom: 4px; }
   .ex-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+  
   .tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; letter-spacing: 0.06em; }
   .tag-sets { background: rgba(99,102,241,0.15); color: #a5b4fc; }
   .tag-reps { background: rgba(16,185,129,0.15); color: #6ee7b7; }
   .tag-weight { background: rgba(245,158,11,0.15); color: #fcd34d; }
   .tag-rest { background: rgba(100,116,139,0.12); color: var(--muted); }
   .tag-type { background: rgba(239,68,68,0.12); color: #fca5a5; }
+  
   .ex-toggle { font-size: 11px; color: var(--dim); flex-shrink: 0; margin-top: 2px; }
+  
   .ex-body { display: none; padding: 0 16px 16px 52px; border-top: 1px solid rgba(30,41,59,0.8); }
   .ex-body.open { display: block; }
   .ex-section-title { font-size: 10px; color: var(--dim); letter-spacing: 0.15em; margin: 12px 0 6px; }
   .ex-text { font-size: 12px; color: var(--muted); line-height: 1.65; margin-bottom: 8px; }
+  
   .form-link { display: inline-flex; align-items: center; gap: 6px; font-size: 11px; color: #ef4444; background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.2); border-radius: 6px; padding: 5px 10px; margin-top: 4px; transition: all 0.15s; }
   .form-link:hover { background: rgba(239,68,68,0.15); text-decoration: none; color: #ef4444; }
+  
   .weight-table { width: 100%; border-collapse: collapse; margin-top: 8px; font-size: 11px; }
   .weight-table th { text-align: left; padding: 6px 10px; background: rgba(30,41,59,0.5); color: var(--dim); letter-spacing: 0.1em; font-size: 10px; }
   .weight-table td { padding: 7px 10px; border-top: 1px solid var(--border); color: var(--muted); }
   .weight-table td:first-child { color: var(--text); }
+  
+  .progression-note { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.2); border-radius: 8px; padding: 12px 14px; margin-top: 16px; }
+  .progression-note .pn-title { font-size: 10px; color: var(--green); letter-spacing: 0.15em; margin-bottom: 6px; }
+  .progression-note .pn-text { font-size: 12px; color: #86efac; line-height: 1.65; }
+
   .callout { border-radius: 10px; padding: 14px 16px; margin-bottom: 12px; font-size: 12px; line-height: 1.65; }
   .callout-warn { background: rgba(245,158,11,0.07); border: 1px solid rgba(245,158,11,0.2); color: #fcd34d; }
   .callout-info { background: rgba(59,130,246,0.07); border: 1px solid rgba(59,130,246,0.2); color: #93c5fd; }
   .callout-green { background: rgba(34,197,94,0.07); border: 1px solid rgba(34,197,94,0.2); color: #86efac; }
   .callout-red { background: rgba(239,68,68,0.07); border: 1px solid rgba(239,68,68,0.2); color: #fca5a5; }
+  .callout strong { font-weight: 600; }
+  
   .warmup-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 8px; margin-bottom: 8px; }
   .warmup-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 10px 12px; display: flex; gap: 8px; align-items: center; }
   .warmup-item span:first-child { font-size: 16px; }
@@ -147,6 +169,63 @@
   </div>
 
   <div id="workout" class="tab-content anim">
+    
+    <section id="overview">
+      <div class="section-header" style="margin-top: 0;">
+        <h2 style="color: var(--text);">Overview</h2>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>Philosophy:</strong> Per Eric Hörst, at your level (5.10+) technique improvement delivers more grade gain than strength. These sessions are short and climbing-specific — not general fitness. The goal is injury prevention, antagonist balance, and the specific movement patterns climbing demands. 25–30 min, twice a week.
+      </div>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="oc-label">YOUR STATS</div>
+          <div class="oc-value">215 lbs, 22M</div>
+          <div class="oc-sub">Trained in COVID, 3yr break. Muscle memory intact.</div>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">CURRENT LEVEL</div>
+          <div class="oc-value">5.10+ top rope</div>
+          <div class="oc-sub">Weight loss alone = ~1 full grade</div>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">STRENGTH DAYS</div>
+          <div class="oc-value">Wed + Fri</div>
+          <div class="oc-sub">Climbing Mon, Thu, Sat</div>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">TARGET</div>
+          <div class="oc-value">5.12 by graduation</div>
+          <div class="oc-sub">Achievable with consistent technique + training</div>
+        </div>
+      </div>
+
+      <div class="label" style="margin-bottom:10px;">3-PHASE PROGRESSION</div>
+      <div class="phase-row">
+        <div class="phase-card p1">
+          <div class="ph-week">WEEKS 1–4</div>
+          <div class="ph-name">Foundation</div>
+          <div class="ph-desc">Re-learn movement patterns. Light weight. 2–3 sets. Expect serious DOMS.</div>
+        </div>
+        <div class="phase-card p2">
+          <div class="ph-week">WEEKS 5–10</div>
+          <div class="ph-name">Build</div>
+          <div class="ph-desc">Increase to 3 sets. Start adding weight. RPE 7–8. Log everything.</div>
+        </div>
+        <div class="phase-card p3">
+          <div class="ph-week">WEEKS 11+</div>
+          <div class="ph-name">Consolidate</div>
+          <div class="ph-desc">Heavier loads, consider adding a 3rd exercise per superset or a new movement.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-warn">
+        <strong>Starting weight rule (coming back after a break):</strong> Start at 40–50% of what you think you can do. Seriously. Your nervous system and connective tissue lag behind your muscle memory. <strong>Soreness will peak days 2–4 after your first session regardless of weight used.</strong> If you start too heavy, that soreness will be severe enough to delay your next session. Week 1 should feel almost embarrassingly easy — that's correct.
+      </div>
+    </section>
+
     <section id="warmup">
       <div class="section-header">
         <h2 style="color: var(--text);">Warm-Up</h2>
@@ -158,6 +237,9 @@
         <div class="warmup-item"><span>🏋️</span><div><div class="wi-text">Dead hang from pull-up bar</div><div class="wi-time">20–30 seconds — warms tendons</div></div></div>
         <div class="warmup-item"><span>🦵</span><div><div class="wi-text">Bodyweight squats</div><div class="wi-time">10 reps — activates legs and hips</div></div></div>
       </div>
+      <div class="callout callout-info" style="margin-top:8px;">
+        Finger tendons take 15–20 min to fully warm up. The dead hang is especially important — never jump into heavy pulling work with cold tendons.
+      </div>
     </section>
 
     <section id="wednesday">
@@ -165,7 +247,9 @@
         <h2 style="color: var(--wed);">Wednesday</h2>
         <span class="day-badge wed">PULL + CORE</span>
       </div>
-      <div class="callout callout-info"><strong>Superset = do A then B back to back with no rest, rest 90s between rounds.</strong></div>
+      <div class="callout callout-info">
+        Wednesday focuses on the pulling muscles you use constantly in climbing, plus the antagonist pushes that keep your shoulders healthy. <strong>Superset = do A then B back to back with no rest, rest 90s between rounds.</strong>
+      </div>
 
       <div class="superset-label">SUPERSET 1 — 3 ROUNDS · rest 90s between rounds</div>
       
@@ -176,13 +260,28 @@
             <div class="ex-name">Pull-ups (or Lat Pulldown)</div>
             <div class="ex-meta">
               <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">5–8 reps</span>
+              <span class="tag tag-weight">Bodyweight / ~50% stack</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Primary climbing movement</span>
             </div>
           </div>
           <div class="ex-toggle" id="ex-pullups-arrow">▼</div>
         </div>
         <div class="ex-body" id="ex-pullups-body">
           <div class="ex-section-title">FORM CUES</div>
-          <p class="ex-text">Dead hang at the bottom — full extension every rep. Pull shoulder blades down and together first.</p>
+          <p class="ex-text">Dead hang at the bottom — full extension every rep. Pull your shoulder blades down and together first (scapular retraction), then bend the elbows. Think "elbows to back pockets," not "chin to bar." Controlled descent — don't drop.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=eGo4IYlbE5g" target="_blank">▶ YouTube: Pull-up form for beginners (Jeff Nippard)</a>
+          
+          <div class="ex-section-title" style="margin-top:14px;">STARTING WEIGHT / MODIFICATION</div>
+          <table class="weight-table">
+            <tr><th>Situation</th><th>What to do</th></tr>
+            <tr><td>Can do 5+ pull-ups</td><td>Do bodyweight pull-ups, 5–8 reps per set</td></tr>
+            <tr><td>Can do 1–4 pull-ups</td><td>Use assisted pull-up machine at ~30–40% of bodyweight assist (~65–85 lbs)</td></tr>
+            <tr><td>Can't do pull-ups yet</td><td>Lat pulldown machine: start at ~80–90 lbs (37–41% BW). Focus on full range of motion.</td></tr>
+          </table>
+
+          <div class="ex-section-title" style="margin-top:14px;">PROGRESSION</div>
+          <p class="ex-text">Once you can do 8+ reps with good form, either add 2.5–5 lbs (weight belt/vest) or reduce assist. For lat pulldown, add 5 lbs per week as long as form is clean.</p>
         </div>
       </div>
 
@@ -192,14 +291,21 @@
           <div class="ex-main">
             <div class="ex-name">Push-ups to failure</div>
             <div class="ex-meta">
-              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">To failure</span>
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">To failure (aim 10–20)</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Antagonist — shoulder health</span>
             </div>
           </div>
           <div class="ex-toggle" id="ex-pushups-arrow">▼</div>
         </div>
         <div class="ex-body" id="ex-pushups-body">
-          <div class="ex-section-title">WHY THIS PAIRS WITH PULL-UPS</div>
-          <p class="ex-text">Climbing is almost entirely pulling. Without antagonist pressing work, you'll develop muscular imbalances.</p>
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Hands slightly wider than shoulder-width. Body forms a straight line — don't let hips sag or pike. Lower chest to 1 inch off floor, full extension at top. If regular push-ups are too easy, elevate feet. If too hard, drop knees.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=IODxDxX7oi4" target="_blank">▶ YouTube: Perfect push-up form (Athlean-X)</a>
+
+          <div class="ex-section-title" style="margin-top:14px;">WHY THIS PAIRS WITH PULL-UPS</div>
+          <p class="ex-text">Climbing is almost entirely pulling. Without antagonist pressing work, you'll develop muscular imbalances that lead to shoulder impingement — the most common climbing injury. This is Alex Megos's #1 training tip: antagonist work.</p>
         </div>
       </div>
 
@@ -210,11 +316,31 @@
           <div class="ex-icon">🏋️</div>
           <div class="ex-main">
             <div class="ex-name">Single-arm Dumbbell Row</div>
-            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–10 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–10 reps each side</span>
+              <span class="tag tag-weight">Start: 25–35 lbs</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Lats, rhomboids, rear delts</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-row-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-row-body"><p class="ex-text">Row the dumbbell toward your hip — think "elbow past your back pocket."</p></div>
+        <div class="ex-body" id="ex-row-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Plant one hand and knee on a bench. Working arm hangs straight. Row the dumbbell toward your hip — think "elbow past your back pocket," not "lift to shoulder." Neutral spine throughout — don't rotate your torso to help. Slow on the way down (2–3 seconds).</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=pYcpY20QaE8" target="_blank">▶ YouTube: Single-arm DB row form (Renaissance Periodization)</a>
+
+          <div class="ex-section-title" style="margin-top:14px;">STARTING WEIGHT (215 lb returning lifter)</div>
+          <table class="weight-table">
+            <tr><th>Week</th><th>Weight</th><th>Feel</th></tr>
+            <tr><td>Week 1–2</td><td>25 lbs</td><td>Should feel easy. That's intentional.</td></tr>
+            <tr><td>Week 3–4</td><td>30–35 lbs</td><td>Moderate effort, clean form</td></tr>
+            <tr><td>Week 5+</td><td>35–45 lbs</td><td>RPE 7–8 — hard but not failure</td></tr>
+          </table>
+
+          <div class="ex-section-title" style="margin-top:14px;">CLIMBING CONNECTION</div>
+          <p class="ex-text">This directly trains the lock-off strength you need for crimpy routes and the lat engagement for every single pull on the wall. Single-arm prevents your stronger side from compensating.</p>
+        </div>
       </div>
 
       <div class="exercise-card superset" id="ex-tricep">
@@ -222,25 +348,46 @@
           <div class="ex-icon">🔼</div>
           <div class="ex-main">
             <div class="ex-name">Tricep Dips or Dumbbell Overhead Press</div>
-            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–10 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–10 reps</span>
+              <span class="tag tag-weight">BW dips / 20–30 lb DBs</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Triceps, shoulders (antagonist)</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-tricep-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-tricep-body"><p class="ex-text">Antagonist pushing muscles. Dips are preferred for climbers as they strengthen shoulder stabilizers.</p></div>
+        <div class="ex-body" id="ex-tricep-body">
+          <div class="ex-section-title">WHICH TO CHOOSE</div>
+          <p class="ex-text">If your gym has parallel bars or a dip station: do dips. If not, do seated dumbbell overhead press. Both work the antagonist pushing muscles. Dips are preferred for climbers as they also strengthen the shoulder stabilizers.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=2z8JmcrW-As" target="_blank">▶ YouTube: Tricep dip form (THENX)</a>
+
+          <div class="ex-section-title" style="margin-top:14px;">STARTING WEIGHT</div>
+          <p class="ex-text">Dips: bodyweight. If too hard, use assisted dip machine. If too easy after a few weeks, add a dumbbell between thighs. Overhead press: start 20–25 lbs per hand. Focus on shoulder stability over heavy weight.</p>
+        </div>
       </div>
 
-      <div class="superset-label" style="margin-top:20px;">CORE CIRCUIT — 2 ROUNDS</div>
+      <div class="superset-label" style="margin-top:20px;">CORE CIRCUIT — 2 ROUNDS · minimal rest between exercises</div>
       
       <div class="exercise-card" id="ex-hang">
         <div class="ex-header" onclick="toggleEx('ex-hang')">
           <div class="ex-icon">🪝</div>
           <div class="ex-main">
             <div class="ex-name">Dead Hang</div>
-            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">20–30 seconds</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">2 sets</span><span class="tag tag-reps">20–30 seconds</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-type">Grip + finger tendons + lat stretch</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-hang-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-hang-body"><p class="ex-text">Builds grip strength and finger tendon resilience passively.</p></div>
+        <div class="ex-body" id="ex-hang-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Full grip on a pull-up bar. Arms straight. Shoulders relaxed and packed down (not shrugging). Breathe. Focus on feeling the stretch through your lats and opening your chest. This passively builds grip strength and finger tendon resilience — critical for climbing longevity.</p>
+          <div class="ex-section-title" style="margin-top:14px;">IMPORTANT NOTE</div>
+          <p class="ex-text">This is NOT hangboard training. A hangboard applies specific finger positions with significant load. Dead hangs on a pull-up bar are safe for all levels and specifically build the connective tissue that protects against the most common climbing finger injuries.</p>
+        </div>
       </div>
 
       <div class="exercise-card" id="ex-hlr">
@@ -248,11 +395,21 @@
           <div class="ex-icon">🦵</div>
           <div class="ex-main">
             <div class="ex-name">Hanging Leg Raises</div>
-            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">8–10 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">2 sets</span><span class="tag tag-reps">8–10 reps</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-type">Lower abs + hip flexors</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-hlr-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-hlr-body"><p class="ex-text">Essential for overhanging routes and high feet.</p></div>
+        <div class="ex-body" id="ex-hlr-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Hang from pull-up bar, arms straight. Slowly raise legs straight until parallel to floor (or as high as you can with control). Don't swing — use your abs, not momentum. Slow on the way down. If straight legs are too hard, bend knees and raise knees to chest instead.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=hdng3Nm1x_E" target="_blank">▶ YouTube: Hanging leg raises form (FitnessFAQs)</a>
+          <div class="ex-section-title" style="margin-top:14px;">CLIMBING CONNECTION</div>
+          <p class="ex-text">Essential for overhanging routes. Every time you bring a high foot up or maintain tension through a roof section, this is the movement pattern you're training.</p>
+        </div>
       </div>
 
       <div class="exercise-card" id="ex-hollow">
@@ -260,11 +417,21 @@
           <div class="ex-icon">🫙</div>
           <div class="ex-main">
             <div class="ex-name">Hollow Body Hold</div>
-            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">20–30 seconds</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">2 sets</span><span class="tag tag-reps">20–30 seconds</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-type">Full core tension — most climbing-specific</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-hollow-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-hollow-body"><p class="ex-text">The hollow body position is exactly the body tension you need on steep terrain.</p></div>
+        <div class="ex-body" id="ex-hollow-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Lie on your back. Press your lower back into the floor — there should be NO gap. Arms overhead, legs straight and raised slightly (or bent for an easier version). Shoulders raised slightly. Hold this position with full-body tension. If your lower back lifts off the floor, raise your legs higher or bend your knees.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=LlDNef_Ztsc" target="_blank">▶ YouTube: Hollow body hold tutorial (GMB Fitness)</a>
+          <div class="ex-section-title" style="margin-top:14px;">WHY THIS IS THE BEST CLIMBING CORE EXERCISE</div>
+          <p class="ex-text">The hollow body position is exactly the body tension you need on steep terrain. Gymnasts and advanced climbers use this as a foundation. 20 seconds of perfect hollow body is worth more than 60 seconds of crunches for climbing performance.</p>
+        </div>
       </div>
     </section>
 
@@ -274,6 +441,10 @@
         <span class="day-badge fri">ANTAGONIST + LEGS</span>
       </div>
       
+      <div class="callout callout-warn">
+        Friday focuses on two things that most climbers neglect: <strong>shoulder health (antagonist)</strong> and <strong>leg strength</strong>. Strong legs mean you can stand on high feet and generate power from below rather than pulling everything with your arms. This directly enables harder grades.
+      </div>
+
       <div class="superset-label">SUPERSET 1 — 3 ROUNDS · rest 90s between rounds</div>
 
       <div class="exercise-card superset fri-color" id="ex-scap">
@@ -281,11 +452,22 @@
           <div class="ex-icon">🫁</div>
           <div class="ex-main">
             <div class="ex-name">Scapular Pull-ups</div>
-            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–12 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8–12 reps</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Shoulder health — non-negotiable</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-scap-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-scap-body"><p class="ex-text">Hang with dead-straight arms. Pull shoulder blades down and together. Prevents rotator cuff injuries.</p></div>
+        <div class="ex-body" id="ex-scap-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Hang from pull-up bar with dead-straight arms. WITHOUT bending your elbows at all, pull your shoulder blades down and together — as if trying to tuck them into your back pockets. Your body will only rise 1–2 inches. Hold 1 second at the top, then slowly release back to a full hang. The movement is entirely in your shoulder blades, not your arms.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=6WoStZFxLqI" target="_blank">▶ YouTube: Scapular pull-ups tutorial (Climb Strong)</a>
+          <div class="ex-section-title" style="margin-top:14px;">WHY THIS IS CRITICAL FOR CLIMBERS</div>
+          <p class="ex-text">Scapular instability is the root cause of most shoulder impingement and rotator cuff injuries in climbing. This exercise directly trains the muscles (lower trapezius, rhomboids, serratus anterior) that stabilize your shoulder blade under load. Do not skip this even when you're short on time.</p>
+        </div>
       </div>
 
       <div class="exercise-card superset fri-color" id="ex-band">
@@ -293,11 +475,22 @@
           <div class="ex-icon">↔️</div>
           <div class="ex-main">
             <div class="ex-name">Band Pull-Aparts</div>
-            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">15 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">15 reps</span>
+              <span class="tag tag-weight">Light resistance band</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Rotator cuff + rear delts</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-band-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-band-body"><p class="ex-text">Squeeze shoulder blades together. Non-negotiable for shoulder health.</p></div>
+        <div class="ex-body" id="ex-band-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Hold resistance band at shoulder height, arms straight in front of you. Pull the band apart by squeezing your shoulder blades together — arms go out to your sides like a T. Hold 1 second at full stretch. Slowly return. Keep arms at shoulder height throughout, don't let them drop. Use a band that allows 15 clean reps without form breakdown — this is not a strength exercise, it's a motor control exercise.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=_N6CnGFrKJI" target="_blank">▶ YouTube: Band pull-aparts for shoulder health (Alan Thrall)</a>
+          <div class="ex-section-title" style="margin-top:14px;">IF YOUR GYM HAS NO BANDS</div>
+          <p class="ex-text">Do face pulls on the cable machine instead: set cable at eye level, pull toward your forehead, thumbs pointing back at finish. Same muscles, slightly different angle. Both are excellent.</p>
+        </div>
       </div>
 
       <div class="superset-label" style="margin-top:20px;">SUPERSET 2 — 3 ROUNDS · rest 90s between rounds</div>
@@ -307,23 +500,54 @@
           <div class="ex-icon">🦵</div>
           <div class="ex-main">
             <div class="ex-name">Goblet Squat</div>
-            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">10–12 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">10–12 reps</span>
+              <span class="tag tag-weight">Start: 25–35 lbs DB/KB</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Quads, glutes, core</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-goblet-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-goblet-body"><p class="ex-text">Strong quads let you actually USE high feet instead of hanging off your arms.</p></div>
+        <div class="ex-body" id="ex-goblet-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Hold a dumbbell or kettlebell vertically at chest height with both hands. Feet shoulder-width apart, toes slightly out. Squat down keeping your chest tall and elbows tracking between your knees. Go to parallel or below — don't cut it short. Drive through your whole foot on the way up. The weight in front helps you maintain an upright torso naturally.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=MeIiIdhvXT4" target="_blank">▶ YouTube: Goblet squat tutorial (Alan Thrall)</a>
+          <div class="ex-section-title" style="margin-top:14px;">STARTING WEIGHT</div>
+          <table class="weight-table">
+            <tr><th>Week</th><th>Weight</th></tr>
+            <tr><td>Week 1–2</td><td>25 lbs — focus on full depth and form</td></tr>
+            <tr><td>Week 3–4</td><td>30–35 lbs</td></tr>
+            <tr><td>Week 5+</td><td>40–50 lbs, add 5 lbs every 1–2 weeks</td></tr>
+          </table>
+          <div class="ex-section-title" style="margin-top:14px;">CLIMBING CONNECTION</div>
+          <p class="ex-text">Strong quads let you actually USE high feet instead of just hanging off your arms. Every time you see a climber stand up on a foothold smoothly, that's quad strength. This is where grades come from.</p>
+        </div>
       </div>
 
       <div class="exercise-card superset fri-color" id="ex-rdl">
         <div class="ex-header" onclick="toggleEx('ex-rdl')">
           <div class="ex-icon">⚖️</div>
           <div class="ex-main">
-            <div class="ex-name">Single-leg RDL</div>
-            <div class="ex-meta"><span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8 reps each leg</span></div>
+            <div class="ex-name">Single-leg Romanian Deadlift</div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">3 sets</span><span class="tag tag-reps">8 reps each leg</span>
+              <span class="tag tag-weight">Start: 15–20 lb DBs</span>
+              <span class="tag tag-rest">No rest (superset)</span>
+              <span class="tag tag-type">Hamstrings, glutes, balance</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-rdl-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-rdl-body"><p class="ex-text">You almost never stand on two feet simultaneously while climbing. Builds necessary stability.</p></div>
+        <div class="ex-body" id="ex-rdl-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Hold a dumbbell in each hand (or one in the opposite hand of your standing leg). Stand on one leg. Hinge forward at the hip — back leg rises behind you as your torso tips forward. Keep a flat back (not rounded) and the standing knee slightly bent, never locked. Lower until you feel a hamstring stretch, then drive your hip back up to standing. The movement should feel like a hinge, not a squat. Balance is the hard part — find a focal point on the floor to stare at.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=1pNFNSME7iU" target="_blank">▶ YouTube: Single-leg RDL tutorial (Jeff Nippard)</a>
+          <div class="ex-section-title" style="margin-top:14px;">STARTING WEIGHT</div>
+          <p class="ex-text">Start at 15 lbs per hand — lighter than you think. This is a balance and motor control exercise as much as a strength one. Getting the movement pattern right is week 1's entire goal. Add weight (5 lbs) only when form is clean for all 8 reps.</p>
+          <div class="ex-section-title" style="margin-top:14px;">WHY SINGLE-LEG OVER REGULAR DEADLIFTS</div>
+          <p class="ex-text">You almost never stand on two feet simultaneously while climbing. Single-leg work trains the stability and hip strength that transfers directly to footwork on the wall, especially smearing and standing on small edges.</p>
+        </div>
       </div>
 
       <div class="superset-label" style="margin-top:20px;">CORE CIRCUIT — 2 ROUNDS</div>
@@ -333,11 +557,19 @@
           <div class="ex-icon">🚲</div>
           <div class="ex-main">
             <div class="ex-name">Bicycle Crunches</div>
-            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">12–20 reps</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">2 sets</span><span class="tag tag-reps">12–20 reps (each side)</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-type">Obliques — twisting + balance moves</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-bike-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-bike-body"><p class="ex-text">Obliques for twisting moves and balance on uneven terrain.</p></div>
+        <div class="ex-body" id="ex-bike-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Lie on your back, hands lightly behind your head. Bring one knee toward your chest while rotating your opposite elbow toward it — genuinely rotating your torso, not just moving your elbows. Extend the other leg straight and low. Alternate sides in a smooth, controlled rhythm. Slow and controlled beats fast and sloppy every time.</p>
+          <a class="form-link" href="https://www.youtube.com/watch?v=9FGilxCbdz8" target="_blank">▶ YouTube: Bicycle crunches proper form (Chloe Ting)</a>
+        </div>
       </div>
 
       <div class="exercise-card" id="ex-plank">
@@ -345,13 +577,92 @@
           <div class="ex-icon">🗿</div>
           <div class="ex-main">
             <div class="ex-name">Plank</div>
-            <div class="ex-meta"><span class="tag tag-sets">2 sets</span><span class="tag tag-reps">45–60 seconds</span></div>
+            <div class="ex-meta">
+              <span class="tag tag-sets">2 sets</span><span class="tag tag-reps">45–60 seconds</span>
+              <span class="tag tag-weight">Bodyweight</span>
+              <span class="tag tag-type">Full core stability</span>
+            </div>
           </div>
           <div class="ex-toggle" id="ex-plank-arrow">▼</div>
         </div>
-        <div class="ex-body" id="ex-plank-body"><p class="ex-text">Full body tension. Don't let hips sag.</p></div>
+        <div class="ex-body" id="ex-plank-body">
+          <div class="ex-section-title">FORM CUES</div>
+          <p class="ex-text">Forearms on floor, elbows under shoulders. Body forms a straight line from head to heels. Squeeze everything — glutes, abs, quads. Don't let your hips sag or your butt rise. Breathe normally. If your form breaks before 45 seconds, drop to your knees and continue — bad form planks build nothing.</p>
+          <div class="ex-section-title" style="margin-top:14px;">PROGRESSION</div>
+          <p class="ex-text">Once 60 seconds feels easy: try a plank with one foot raised, or a side plank (30 sec each side). Harder variation beats longer easier plank.</p>
+        </div>
       </div>
     </section>
+
+    <section id="progression">
+      <div class="section-header">
+        <h2 style="color: var(--green);">Progression Guide</h2>
+      </div>
+
+      <div class="progression-note">
+        <div class="pn-title">THE GOLDEN RULE</div>
+        <div class="pn-text">Add weight only when you can complete all prescribed reps with clean form. Never add weight just because a week has passed. Form first, weight second — always.</div>
+      </div>
+
+      <div class="callout callout-info" style="margin-top:12px;">
+        <strong>RPE scale (Rate of Perceived Exertion):</strong> After completing a set, how many more reps could you have done?
+        RPE 6 = 4+ more reps in the tank. RPE 7 = 3 reps left. RPE 8 = 2 reps left. RPE 9 = 1 rep left.
+        <br><br>
+        <strong>Weeks 1–4:</strong> Stay at RPE 6–7. Weeks 5–8: RPE 7–8. Week 9+: RPE 8–9 for main lifts.
+      </div>
+
+      <div class="label" style="margin: 20px 0 10px;">EXPECTED PROGRESSION TIMELINE</div>
+
+      <div class="overview-grid">
+        <div class="overview-card">
+          <div class="oc-label">WEEKS 1–2</div>
+          <div class="oc-value" style="color:var(--green);">Foundation</div>
+          <div class="oc-sub">Everything feels easy and you'll still be sore. Don't add weight. Perfect your form on every movement.</div>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">WEEKS 3–4</div>
+          <div class="oc-value" style="color:var(--wed);">Awakening</div>
+          <div class="oc-sub">Soreness fades. Start increasing weights by 5 lbs where movements feel too easy.</div>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">WEEKS 5–8</div>
+          <div class="oc-value" style="color:var(--fri);">Rapid gains</div>
+          <div class="oc-sub">Muscle memory kicks in. Add 5 lbs weekly on rows and goblet squat. Pull-up reps increase fast.</div>
+        </div>
+        <div class="overview-card">
+          <div class="oc-label">WEEK 9+</div>
+          <div class="oc-value" style="color:var(--purple);">Consolidate</div>
+          <div class="oc-sub">Progress slows — this is normal. Reassess program, consider adding weighted pull-ups or heavier leg work.</div>
+        </div>
+      </div>
+
+      <div class="callout callout-red" style="margin-top:16px;">
+        <strong>🪝 Hangboard timeline:</strong> Do NOT add a hangboard until you're climbing consistent 5.11 with 1–2 years of recent climbing history and zero finger/elbow issues. Your tendons need years to catch up to your muscles. The dead hang in your current program is safe and sufficient for now. Revisit in 6–12 months.
+      </div>
+    </section>
+
+    <section id="notes">
+      <div class="section-header">
+        <h2 style="color: var(--text);">Key Notes</h2>
+      </div>
+
+      <div class="callout callout-green">
+        <strong>💊 Post-workout nutrition:</strong> After climbing sessions (Mon, Thu, Sat), get protein within 30–60 min. Greek yogurt, protein shake, or eggs. After strength sessions (Wed, Fri), a regular protein-focused meal within 2 hours is sufficient.
+      </div>
+
+      <div class="callout callout-info" style="margin-top:10px;">
+        <strong>😴 Sleep and gains:</strong> Your muscles and tendons don't get stronger during workouts — they get stronger during sleep. Your Whoop data will show higher HRV on mornings after good sleep following hard sessions. The night shower → podcast → sleep routine you're building is directly supporting your climbing improvement.
+      </div>
+
+      <div class="callout callout-warn" style="margin-top:10px;">
+        <strong>⚖️ Weight loss + strength training:</strong> At a calorie deficit (which you'll be in), you won't build much new muscle mass. That's fine. The goal here is to maintain and re-activate existing muscle, improve movement patterns, and build the specific strength that translates to climbing. You'll look and perform noticeably better without the scale moving dramatically.
+      </div>
+
+      <div class="callout callout-red" style="margin-top:10px;">
+        <strong>🛑 When to stop a set:</strong> Form breakdown, sharp joint pain, or shaking that compromises the movement. Muscle burn and fatigue are fine. Wrist, elbow, or shoulder pain is not — stop, rest, and if it persists get it looked at. Climbing injuries are mostly overuse and most are preventable.
+      </div>
+    </section>
+
   </div>
 
   <div id="climbing" class="tab-content anim">
